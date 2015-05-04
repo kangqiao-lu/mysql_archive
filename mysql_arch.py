@@ -253,8 +253,8 @@ class NewArch(object):
                 if ids == []:
                     return ids
                 else:
-                    ##归档采用 into outfile形式,用'YangHaoYong'号隔开每个字段
-                    arch_sql = "select * from %s.%s where %s into outfile '%s' FIELDS TERMINATED BY 'YangHaoYong';" % (self.db,self.tb,self.clause,out_file)
+                    ##归档采用 into outfile形式,用'TMAC'号隔开每个字段
+                    arch_sql = "select * from %s.%s where %s into outfile '%s' FIELDS TERMINATED BY 'TMAC';" % (self.db,self.tb,self.clause,out_file)
                     ##判断归档是否失败,失败了重试三次,如果还失败,就跳过归档
                     _failed_times = 0
                     while _failed_times <= 3:
@@ -311,7 +311,7 @@ class NewArch(object):
                     now_time = time.strftime('%Y-%m-%d',time.localtime())
                     arch_file = '/data/mysql/opbin/tb_arch/data_bak/%s.%s.%s.%s.csv' % (self.id,self.db,self.tb,now_time)
                     if os.path.isfile(arch_file):
-                        sql = "load data local infile '%s' IGNORE into table %s.%s FIELDS TERMINATED BY 'YangHaoYong';" % (arch_file,go_db,go_tb)
+                        sql = "load data local infile '%s' IGNORE into table %s.%s FIELDS TERMINATED BY 'TMAC';" % (arch_file,go_db,go_tb)
                         arch_status = godb.execute_sql(sql)
                         if arch_status == 0:
                             log_msg = "%s.%s arch to db failed..." % (self.db,self.tb)
